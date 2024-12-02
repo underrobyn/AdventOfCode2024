@@ -1,23 +1,10 @@
 <?php
 
-$puzzleInput = trim(file_get_contents('input-01.txt'));
-
-$puzzleRows = explode("\n", $puzzleInput);
-print_r($puzzleRows);
+require_once 'shared.php';
 
 $list1 = array();
 $list2 = array();
-
-foreach ($puzzleRows as $row) {
-	$cleanString = trim($row); // Remove pesky windows line-endings
-	$spaceValues = explode(' ', $cleanString); // Split array at space
-	$rowValues = array_filter($spaceValues); // Remove empty values
-	$puzzleValues = array_values($rowValues); // Reset array index
-
-	// Add values to their respective list and cast them to integers
-	$list1[] = (int)$puzzleValues[0];
-	$list2[] = (int)$puzzleValues[1];
-}
+fillPuzzleInputLists($list1, $list2);
 
 // Sort the lists smallest to largest
 sort($list1);
