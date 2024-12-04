@@ -1,10 +1,10 @@
 <?php
 
-function getPuzzleInput() {
+function getPuzzleInput(): array {
 	$puzzleInput = trim(file_get_contents('input-01.txt'));
 	$puzzleRows = explode("\n", $puzzleInput);
 
-	function convertRowToIntegers($row) {
+	function convertRowToIntegers($row): array {
 		return array_map('intval', explode(' ', $row));
 	}
 
@@ -12,12 +12,12 @@ function getPuzzleInput() {
 }
 
 // Checks if number less than zero
-function ltz($n) {
+function ltz($n): bool {
 	return $n < 0;
 }
 
 // Checks if number greater than zero
-function gtz($n) {
+function gtz($n): bool {
 	return $n > 0;
 }
 
