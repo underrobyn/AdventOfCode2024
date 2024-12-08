@@ -17,18 +17,19 @@ foreach($input as $equation) {
 
 	$operatorsNeeded = count($numbers) - 1;
 
-	$allowedOperators = ["+", "*"];
+	$allowedOperators = ["+", "*", ""];
 	$permutations = new Combinations($allowedOperators);
 	foreach ($permutations->Permutations($operatorsNeeded, true) as $operatorsChosen) {
 		$lastResult = $numbers[0];
 		for ($i = 0; $i < sizeof($operatorsChosen); $i++) {
 			$mathStr = $lastResult . $operatorsChosen[$i] . $numbers[$i+1];
 			$lastResult = (int)doMathUnsafe($mathStr);
-			//print("{$mathStr} = $lastResult\n");
+			#print("{$mathStr} = $lastResult\n");
 		}
 
 		if ($lastResult === (int)$ans) {
 			$sum += (int) $ans;
+			print("{$mathStr} = $lastResult\n");
 			break;
 		}
 	}
