@@ -1,23 +1,6 @@
 <?php
 
-function getPuzzleInput() {
-	$puzzleInput = file_get_contents('input-01.txt');
-	$puzzleRows = explode("\n", $puzzleInput);
-	return array_map('str_split', $puzzleRows);
-}
-
-
-function findAllStartingChars(&$puzzleIn): array {
-	$xLocations = array();
-	for ($y = 0; $y < sizeof($puzzleIn); $y++) {
-		for ($x = 0; $x < sizeof($puzzleIn[$y]); $x++) {
-			if ($puzzleIn[$y][$x] === "X") {
-				$xLocations[] = [$y, $x];
-			}
-		}
-	}
-	return $xLocations;
-}
+require_once 'shared.php';
 
 function findAll(&$puzzleIn, &$searchLocations): int {
 	$found = 0;
@@ -84,9 +67,9 @@ function findAll(&$puzzleIn, &$searchLocations): int {
 }
 
 function part1 () {
-	$puzzleIn = getPuzzleInput();
+	$puzzleIn = getPuzzleInput('input-01.txt');
 
-	$searchLocations = findAllStartingChars($puzzleIn);
+	$searchLocations = findAllStartingChars($puzzleIn, "X");
 
 	print_r(json_encode($searchLocations) . "\n");
 	print_r("Found: " . findAll($puzzleIn, $searchLocations));
