@@ -4,6 +4,7 @@ require "shared.php";
 
 $input = getPuzzleInput();
 
+$t_start = microtime(true);
 $sum = 0;
 foreach($input as $equation) {
 	$ans = $equation["ans"];
@@ -24,7 +25,7 @@ foreach($input as $equation) {
 		for ($i = 0; $i < sizeof($operatorsChosen); $i++) {
 			$mathStr = $lastResult . $operatorsChosen[$i] . $numbers[$i+1];
 			$lastResult = (int)doMathUnsafe($mathStr);
-			#print("{$mathStr} = $lastResult\n");
+			#print("Trying: {$mathStr} = $lastResult\r");
 		}
 
 		if ($lastResult === (int)$ans) {
@@ -34,5 +35,7 @@ foreach($input as $equation) {
 		}
 	}
 }
+
+print("\nTime Taken: " . microtime(true) - $t_start);
 
 print("\nAnswer: $sum");
