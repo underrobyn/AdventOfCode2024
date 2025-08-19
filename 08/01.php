@@ -2,32 +2,12 @@
 
 use drupol\phpermutations\Generators\Combinations;
 require_once '../vendor/autoload.php';
+require_once 'shared.php';
 
 $fc = file_get_contents('input-01.txt');
-$lines = explode("\r\n", $fc);
+$puzzle = explode("\r\n", $fc);
+$antennas = findAntennas($puzzle);
 
-print("Number of rows: ". count($lines) . "\n");
-print("Number of cols: ". strlen($lines[0]) . "\n");
-
-
-# Identify antenna locations in terms of coordinate pairs
-$antennas = [];
-for ($y = 0; $y < count($lines); $y++) {
-    $line = str_split($lines[$y]);
-    for ($x = 0; $x < count($line); $x++) {
-        $char = $line[$x];
-        if ($char != ".") {
-            if (!isset($antennas[$char])) {
-                $antennas[$char] = [];
-            }
-            $antennas[$char][] = [$x, $y];
-        }
-        print($char . " ");
-    }
-    print ("\n");
-}
-
-print("Number of antennas: ". count($antennas) . "\n");
 $antinodeLocations = [];
 foreach ($antennas as $antennaId => $antennaLocations) {
     print("AntennaID: $antennaId\n");
@@ -40,8 +20,12 @@ foreach ($antennas as $antennaId => $antennaLocations) {
 
         $pNode = [$combination[0][0] + $distanceX, $combination[0][1] + $distanceY];
         $nNode = [$combination[1][0] + ($distanceX*-1), $combination[1][1] + ($distanceY*-1)];
-        $antinodeLocations[] = $pNode;
-        $antinodeLocations[] = $nNode;
+        if (isCoordinateInPuzzle($puzzle, $pNode)) {
+            $antinodeLocations[] = $pNode;
+        }
+        if (isCoordinateInPuzzle($puzzle, $nNode)) {
+            $antinodeLocations[] = $nNode;
+        }
     }
 }
 
@@ -49,8 +33,8 @@ $nAntiNodes = count($antinodeLocations);
 print("\nnAntiNodes={$nAntiNodes}\n");
 
 $numValidAntinodes = 0;
-for ($y = 0; $y < count($lines); $y++) {
-    $line = str_split($lines[$y]);
+for ($y = 0; $y < count($puzzle); $y++) {
+    $line = str_split($puzzle[$y]);
     for ($x = 0; $x < count($line); $x++) {
         $char = $line[$x];
         if (in_array(array($x, $y), $antinodeLocations)) {
